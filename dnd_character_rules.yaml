@@ -1,0 +1,194 @@
+# D&D5e Character Construction Rule Set
+# version 1.0
+
+character_creation:
+  steps:
+    - choose_race
+    - choose_class
+    - determine_abilities
+    - choose_background
+    - assign_alignment
+    - calculate_hit_points
+    - choose_equipment
+    - finalize_details
+
+races:
+  Human:
+    ability_bonuses:
+      strength: +1
+      dexterity: +1
+      constitution: +1
+      intelligence: +1
+      wisdom: +1
+      charisma: +1
+    size: Medium
+    speed: 30
+    languages: ["Common", "Choice"]
+    features:
+      - "Versatility: Gain proficiency in one extra skill"
+  Elf:
+    subraces:
+      HighElf:
+        ability_bonuses:
+          dexterity: +2
+          intelligence: +1
+        speed: 30
+        languages: ["Common", "Elvish", "Choice"]
+        features:
+          - "Darkvision (60 ft)"
+          - "Keen Senses (Perception proficiency)"
+          - "Fey Ancestry (advantage vs charm, immune to sleep)"
+          - "Trance (4 hours meditation)"
+      WoodElf:
+        ability_bonuses:
+          dexterity: +2
+          wisdom: +1
+        speed: 35
+        features:
+          - "Darkvision (60 ft)"
+          - "Mask of the Wild (hide even when lightly obscured)"
+  Dwarf:
+    subraces:
+      HillDwarf:
+        ability_bonuses:
+          constitution: +2
+          wisdom: +1
+        speed: 25
+        features:
+          - "Darkvision (60 ft)"
+          - "Dwarven Resilience (advantage vs poison)"
+          - "Dwarven Toughness (+1 HP per level)"
+      MountainDwarf:
+        ability_bonuses:
+          strength: +2
+          constitution: +2
+        features:
+          - "Armor Training (light, medium)"
+          - "Darkvision (60 ft)"
+
+classes:
+  Fighter:
+    hit_die: d10
+    primary_abilities: ["strength", "constitution"]
+    saving_throws: ["strength", "constitution"]
+    proficiencies:
+      armor: ["All armor", "Shields"]
+      weapons: ["Simple weapons", "Martial weapons"]
+      tools: []
+      skills_choose: { choose: 2, from: ["Athletics", "History", "Insight", "Intimidation", "Perception", "Survival"] }
+    starting_equipment_options:
+      - choose_one:
+          - ["Chain Mail"]
+          - ["Leather Armor", "Longbow", "20 arrows"]
+      - choose_one:
+          - ["Martial weapon", "Shield"]
+          - ["Two Martial weapons"]
+      - choose_one:
+          - ["Light crossbow", "20 bolts"]
+          - ["Two handaxes"]
+    features:
+      - "Fighting Style (choose one)"
+      - "Second Wind"
+  Wizard:
+    hit_die: d6
+    primary_abilities: ["intelligence"]
+    saving_throws: ["intelligence", "wisdom"]
+    proficiencies:
+      armor: []
+      weapons: ["Daggers", "Darts", "Slings", "Quarterstaffs", "Light crossbows"]
+      tools: []
+      skills_choose: { choose: 2, from: ["Arcana", "History", "Insight", "Investigation", "Medicine", "Religion"] }
+    spellcasting:
+      spellcasting_ability: intelligence
+      cantrips_known: 3
+      spell_slots_per_level:
+        1: { level_1: 2 }
+        2: { level_1: 3 }
+        3: { level_1: 4, level_2: 2 }
+    starting_equipment_options:
+      - choose_one:
+          - ["Quarterstaff"]
+          - ["Dagger"]
+      - choose_one:
+          - ["Component pouch"]
+          - ["Arcane focus"]
+      - ["Scholar’s pack"]
+      - ["Spellbook"]
+  Rogue:
+    hit_die: d8
+    primary_abilities: ["dexterity"]
+    saving_throws: ["dexterity", "intelligence"]
+    proficiencies:
+      armor: ["Light armor"]
+      weapons: ["Simple weapons", "Hand crossbows", "Longswords", "Rapiers", "Shortswords"]
+      tools: ["Thieves’ tools"]
+      skills_choose: { choose: 4, from: ["Acrobatics", "Athletics", "Deception", "Insight", "Intimidation", "Investigation", "Perception", "Performance", "Persuasion", "Sleight of Hand", "Stealth"] }
+    features:
+      - "Expertise"
+      - "Sneak Attack"
+      - "Thieves’ Cant"
+
+abilities:
+  methods:
+    - "Roll 4d6, drop the lowest, assign freely"
+    - "Point Buy (27 points, standard array: 15, 14, 13, 12, 10, 8)"
+  base_score_range: [3, 18]
+  modifiers:
+    "1": -5
+    "2": -4
+    "3": -4
+    "4": -3
+    "5": -3
+    "6": -2
+    "7": -2
+    "8": -1
+    "9": -1
+    "10": 0
+    "11": 0
+    "12": +1
+    "13": +1
+    "14": +2
+    "15": +2
+    "16": +3
+    "17": +3
+    "18": +4
+    "19": +4
+    "20": +5
+
+backgrounds:
+  Soldier:
+    skill_proficiencies: ["Athletics", "Intimidation"]
+    tool_proficiencies: ["One type of gaming set", "Vehicles (land)"]
+    equipment: ["Insignia of rank", "Trophy from fallen enemy", "Set of common clothes", "Belt pouch (10 gp)"]
+    feature: "Military Rank"
+  Sage:
+    skill_proficiencies: ["Arcana", "History"]
+    languages: { choose: 2 }
+    equipment: ["Bottle of ink", "Quill", "Small knife", "Letter from a dead colleague", "Common clothes", "Belt pouch (10 gp)"]
+    feature: "Researcher"
+
+alignment:
+  lawful_good:
+    description: "Acts as a protector of order and justice."
+  chaotic_good:
+    description: "Acts with compassion but disregards rules."
+  neutral:
+    description: "Balances both order and chaos for personal reasons."
+  lawful_evil:
+    description: "Uses order to dominate others."
+  chaotic_neutral:
+    description: "Acts on impulse; values freedom over morality."
+
+equipment_rules:
+  carrying_capacity:
+    formula: "Strength score × 15 lb"
+  encumbrance:
+    thresholds:
+      light: "≤ Strength × 5"
+      medium: "≤ Strength × 10"
+      heavy: "≤ Strength × 15"
+
+hit_points:
+  calculation:
+    level_1: "Maximum value of hit die + Constitution modifier"
+    level_up: "Roll hit die or take average + Constitution modifier"
